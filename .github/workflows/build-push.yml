@@ -21,7 +21,7 @@ permissions:
 jobs:
   image:
     name: OCI image → GHCR + GitOps deployment
-    runs-on: arc-runner-set
+    runs-on: arc-runner-habit
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
