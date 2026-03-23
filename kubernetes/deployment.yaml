@@ -1,0 +1,51 @@
+# Image GHCR — tag :<sha> mis à jour par GitHub Actions après chaque build (commit bot).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: habit
+  namespace: habit
+  labels:
+    app.kubernetes.io/name: habit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: habit
+  template:
+    metadata:
+      labels:
+        app: habit
+    spec:
+      imagePullSecrets:
+        - name: ghcr-pull
+      containers:
+        - name: app
+          image: ghcr.io/vinzlac/habit:main
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+          securityContext:
+            allowPrivilegeEscalation: false
+            # readOnlyRootFilesystem: possible avec emptyDir pour /var/cache/nginx, /tmp, /run (nginx)
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+            limits:
+              cpu: "500m"
+              memory: 256Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20
