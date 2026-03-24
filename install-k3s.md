@@ -1,6 +1,6 @@
 # Contexte homelab — k3s, CI/CD et ce dépôt
 
-> **Objectif** : document de référence pour un **assistant IA** ou un nouveau contributeur travaillant **dans ce dépôt app** (hors mono-repo `k3s-homelab`). Dernière génération / mise à jour : **2026-03-23T16:54:40Z**.
+> **Objectif** : document de référence pour un **assistant IA** ou un nouveau contributeur travaillant **dans ce dépôt app** (hors mono-repo `k3s-homelab`). Dernière génération / mise à jour : **2026-03-24T16:13:13Z**.
 
 ---
 
@@ -23,7 +23,7 @@ Les workflows GitHub Actions tournent sur des runners **ARC** (*Actions Runner C
 
 | Paramètre | Détail |
 |-----------|--------|
-| **Label workflow** | `runs-on: arc-runner-set` (nom du *scale set* Helm = nom d’installation ARC) |
+| **Label workflow** | `runs-on: arc-runner-habit` (nom du *scale set* Helm = nom d’installation ARC) |
 | **Build** | **BuildKit** en **ClusterIP** dans le namespace `cicd` |
 | **Secret obligatoire** | **`BUILDKIT_HOST`** = `tcp://buildkitd.cicd.svc.cluster.local:1234` |
 | **Registry** | **GHCR** — image **`ghcr.io/vinzlac/habit`** (tags **`:<sha>`** et **`:main`**) |
@@ -90,6 +90,9 @@ Scripts typiques depuis une machine avec **kubectl** configuré :
 | **Org / repo GitHub** | vinzlac / **habit** |
 | **Ressource K8s (Deployment/Service)** | habit |
 | **Image** | `ghcr.io/vinzlac/habit:<sha>` (mis à jour par CI) |
+| **Processus conteneur (squelette par défaut)** | Next.js **standalone** (`node server.js`), **PORT 3000**, utilisateur **`node`** (UID **1000**) — le Service mappe **80 →** port nommé **http**. Variante **statique + nginx** : `Dockerfile.nginx-static`, typiquement **8080** / UID **101** ; à refléter dans les manifests si tu l’utilises. |
+
+Les détails (resources, probes, `securityContext`) suivent **`kubernetes/deployment.yaml`** dans **ce** dépôt (source de vérité côté cluster).
 
 ---
 
