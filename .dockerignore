@@ -3,3 +3,6 @@
 kubernetes
 README.md
 *.md
+node_modules
+.next
+out

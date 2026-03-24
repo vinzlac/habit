@@ -37,9 +37,15 @@ Ou adapte le script homelab `create-ghcr-pull-secret-todoapp.sh` (namespace / no
 ## Développement local
 
 ```bash
-docker build -t local .
-docker run --rm -p 8080:80 local
-# → http://127.0.0.1:8080
+npm run dev
+# → http://localhost:3000
+```
+
+**Image Docker (même build que la prod, sans `next dev`)** :
+
+```bash
+npm run docker:up
+# → http://localhost:3000
 ```
 
 ## Contexte homelab / CI (pour toi ou un assistant IA)
@@ -52,7 +58,7 @@ docker run --rm -p 8080:80 local
 .
 ├── install-k3s.md        # Contexte K3S / homelab (généré, à committer dans ce repo)
 ├── Dockerfile
-├── html/                 # Exemple statique — remplace par ton app
+├── app/                  # Next.js App Router
 ├── kubernetes/           # Source Argo CD (path déclaré dans l’Application)
 └── .github/workflows/
 ```

@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Build
+dist/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Testing
+coverage/
+
+# OS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
